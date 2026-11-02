@@ -19,3 +19,25 @@ AI helped with:
 I created and tested the project in Android Studio. I followed the implementation step by step, checked the code, ran the application, and tested its main features.
 
 I understand the purpose of the main files and components used in the project.
+
+## Wrong Layer Example
+
+During development, one possible mistake would be to put filtering logic directly inside `HomeScreen()`.
+
+For example, the UI should not filter the expenses like this:
+
+```kotlin
+val filteredExpenses = expenses.filter {
+    it.title.contains(searchQuery, ignoreCase = true)
+}
+```
+
+This would put business logic in the UI layer.
+
+Instead, filtering is handled in `HomeViewModel` by the `filterExpenses()` function. The ViewModel updates `HomeUiState`, and `HomeScreen()` only displays the `filteredExpenses` it receives.
+
+The correct data flow is:
+
+UI → ViewModel → Repository
+
+This separation makes the application easier to understand, test, and maintain.
